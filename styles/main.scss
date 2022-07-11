@@ -53,7 +53,7 @@ html[data-theme='night'] .weather {
 .forecast {
   display: flex;
   justify-content: space-between;
-  margin-bottom: $padding * 2;
+  margin-bottom: $padding * 3;
 
   &__item {
     text-align: center;
@@ -74,6 +74,7 @@ html[data-theme='night'] .weather {
 }
 
 .details {
+  text-align: center;
   &__row {
     display: flex;
     justify-content: space-between;
