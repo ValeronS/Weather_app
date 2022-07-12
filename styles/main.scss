@@ -94,69 +94,43 @@ html[data-theme='night'] .weather {
   }
 }
 
-.icon__01d,
-.icon__01n,
-.icon__02d,
-.icon__02n,
-.icon__03d,
-.icon__03n,
-.icon__04d,
-.icon__04n,
-.icon__09d,
-.icon__09n,
-.icon__10d,
-.icon__10n,
-.icon__11d,
-.icon__11n,
-.icon__13d,
-.icon__13n,
-.icon__50d,
-.icon__50n {
+.forecast__icon {
   background-size: $icon-size;
   background-repeat: no-repeat;
 }
 
-.icon__01d,
-.icon__01n {
+.icon__clear_sky {
   background-image: url('../images/01d.png');
 }
 
-.icon__02d,
-.icon__02n {
+.icon__few_clouds {
   background-image: url('../images/02d.png');
 }
 
-.icon__03d,
-.icon__03n {
+.icon__scattered_clouds {
   background-image: url('../images/03d.png');
 }
 
-.icon__04d,
-.icon__04n {
+.icon__broken_clouds {
   background-image: url('../images/04d.png');
 }
 
-.icon__09d,
-.icon__09n {
+.icon__shower_rain {
   background-image: url('../images/09d.png');
 }
 
-.icon__10d,
-.icon__10n {
+.icon__rain {
   background-image: url('../images/10d.png');
 }
 
-.icon__11d,
-.icon__11n {
+.icon__thunderstorm {
   background-image: url('../images/11d.png');
 }
 
-.icon__13d,
-.icon__13n {
+.icon__snow {
   background-image: url('../images/13d.png');
 }
 
-.icon__50d,
-.icon__50n {
+.icon__mist {
   background-image: url('../images/50d.png');
 }
