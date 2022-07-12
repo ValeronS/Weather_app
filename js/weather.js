@@ -48,10 +48,10 @@ function getTemperature(value) {
 
 function render(data) {
   renderCity(data.city.name);
-  renderCurrentTemperature(data);
-  renderCurrentDescription(data);
-  renderForecast(data);
-  renderDetails(data);
+  renderCurrentTemperature(data.list[0].main.temp);
+  renderCurrentDescription(data.list[0].weather[0].description);
+  renderForecast(data.list);
+  renderDetails(data.list[0]);
 }
 
 function renderCity(data) {
@@ -60,15 +60,13 @@ function renderCity(data) {
 }
 
 function renderCurrentTemperature(data) {
-  let tmp = data.list[0].main.temp;
   let currentTemperature = document.querySelector('.current__temperature');
-  currentTemperature.innerHTML = getTemperature(tmp);
+  currentTemperature.innerHTML = getTemperature(data);
 }
 
 function renderCurrentDescription(data) {
-  let description = data.list[0].weather[0].description;
   let currentDescription = document.querySelector('.current__description');
-  currentDescription.innerHTML = description;
+  currentDescription.innerHTML = data;
 }
 
 function renderForecast(data) {
@@ -76,7 +74,7 @@ function renderForecast(data) {
   let forecast = '';
 
   for (let i = 0; i < 6; i++) {
-    let item = data.list[i];
+    let item = data[i];
 
     let icon = item.weather[0].icon;
     let temp = getTemperature(item.main.temp);
@@ -94,25 +92,24 @@ function renderForecast(data) {
 }
 
 function renderDetails(data) {
-  let item = data.list[0];
-
-  let feelsLike = getTemperature(item.main.feels_like);
-  let pressureValue = convertPressure(item.main.pressure);
+  let feelsLike = getTemperature(data.main.feels_like);
+  let pressureValue = convertPressure(data.main.pressure);
   let pressure = getValueWithUnit(pressureValue, pressureUnit);
-  let humidity = getValueWithUnit(item.main.humidity, humidityUnit);
-  let wind = getValueWithUnit(item.wind.speed.toFixed(), windUnit);
+  let humidity = getValueWithUnit(data.main.humidity, humidityUnit);
+  let wind = getValueWithUnit(data.wind.speed.toFixed(), windUnit);
 
-  renderDetailsItem('.feelslike', feelsLike, 'ощущается как');
-  renderDetailsItem('.pressure', pressure, 'давление');
-  renderDetailsItem('.humidity', humidity, 'влажность');
-  renderDetailsItem('.wind', wind, 'ветер');
+  renderDetailsItem('.feelslike', 'ощущается как', feelsLike);
+  renderDetailsItem('.pressure', 'давление', pressure);
+  renderDetailsItem('.humidity', 'влажность', humidity);
+  renderDetailsItem('.wind', 'ветер', wind);
 }
 
-function renderDetailsItem(className, value, name) {
+function renderDetailsItem(className, name, value) {
   let detailsName = document
     .querySelector(className)
     .querySelector('.details__name');
   detailsName.innerHTML = name;
+
   let detailsContainer = document
     .querySelector(className)
     .querySelector('.details__value');
