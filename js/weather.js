@@ -47,7 +47,7 @@ function getTemperature(value) {
 }
 
 function render(data) {
-  renderCity(data);
+  renderCity(data.city.name);
   renderCurrentTemperature(data);
   renderCurrentDescription(data);
   renderForecast(data);
@@ -56,7 +56,7 @@ function render(data) {
 
 function renderCity(data) {
   let cityName = document.querySelector('.current__city');
-  cityName.innerHTML = data.city.name;
+  cityName.innerHTML = data;
 }
 
 function renderCurrentTemperature(data) {
@@ -102,13 +102,17 @@ function renderDetails(data) {
   let humidity = getValueWithUnit(item.main.humidity, humidityUnit);
   let wind = getValueWithUnit(item.wind.speed.toFixed(), windUnit);
 
-  renderDetailsItem('.feelslike', feelsLike);
-  renderDetailsItem('.pressure', pressure);
-  renderDetailsItem('.humidity', humidity);
-  renderDetailsItem('.wind', wind);
+  renderDetailsItem('.feelslike', feelsLike, 'ощущается как');
+  renderDetailsItem('.pressure', pressure, 'давление');
+  renderDetailsItem('.humidity', humidity, 'влажность');
+  renderDetailsItem('.wind', wind, 'ветер');
 }
 
-function renderDetailsItem(className, value) {
+function renderDetailsItem(className, value, name) {
+  let detailsName = document
+    .querySelector(className)
+    .querySelector('.details__name');
+  detailsName.innerHTML = name;
   let detailsContainer = document
     .querySelector(className)
     .querySelector('.details__value');
