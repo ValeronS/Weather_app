@@ -47,9 +47,9 @@ function getTemperature(value) {
 }
 
 function render(data) {
-  renderCity(data.city.name);
-  renderCurrentTemperature(data.list[0].main.temp);
-  renderCurrentDescription(data.list[0].weather[0].description);
+  renderCity(data?.city?.name ?? 'неизвестный город');
+  renderCurrentTemperature(data.list[0]?.main?.temp ?? 0);
+  renderCurrentDescription(data.list[0].weather[0]?.description ?? 0);
   renderForecast(data.list);
   renderDetails(data.list[0]);
 }
@@ -69,6 +69,27 @@ function renderCurrentDescription(data) {
   currentDescription.innerHTML = data;
 }
 
+const WEATHER_ICONS_MAP = {
+  '01d': 'clear_sky',
+  '01n': 'clear_sky',
+  '02d': 'few_clouds',
+  '02n': 'few_clouds',
+  '03d': 'scattered_clouds',
+  '03n': 'scattered_clouds',
+  '04d': 'broken_clouds',
+  '04n': 'broken_clouds',
+  '09d': 'shower_rain',
+  '09n': 'shower_rain',
+  '10d': 'rain',
+  '10n': 'rain',
+  '11d': 'thunderstorm',
+  '11n': 'thunderstorm',
+  '13d': 'snow',
+  '13n': 'snow',
+  '50d': 'mist',
+  '50n': 'mist',
+};
+
 function renderForecast(data) {
   let forecastDataContainer = document.querySelector('.forecast');
   let forecast = '';
@@ -82,7 +103,7 @@ function renderForecast(data) {
 
     let template = `<div class="forecast__item">
       <div class="forecast__time">${hours}</div>
-      <div class="forecast__icon icon__${icon}"></div>
+      <div class="forecast__icon icon__${WEATHER_ICONS_MAP[icon]}"></div>
       <div class="forecast__temperature">${temp}</div>
     </div>`;
 
