@@ -27,12 +27,13 @@ async function getData() {
 
   try {
     const response = await fetch(url);
-    const jsonData = await response.json();
-    console.log(jsonData);
-    if (response.status > 200) {
-      alert(jsonData.message);
+    if (response.ok) {
+      const jsonData = await response.json();
+      console.log(jsonData);
+      return { data: jsonData, error: false };
+    } else {
+      alert('Ошибка HTTP: ' + response.status);
     }
-    return { data: jsonData, error: false };
   } catch (e) {
     console.error(e);
     return { data: null, error: true };
