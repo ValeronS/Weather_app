@@ -6,18 +6,37 @@ const pressureUnit = ' мм. рт. ст.';
 const windUnit = ' м/с';
 
 let currentData;
+// ============ первый рабочий вариант ============
+// async function getData() {
+//   console.log('Fetching data...');
+
+//   try {
+//     const response = await fetch(url);
+//     const jsonData = await response.json();
+//     console.log(jsonData);
+//     render(jsonData);
+//   } catch (e) {
+//     console.error(e);
+//     alert(e);
+//   }
+// }
+// getData();
 
 async function getData() {
   console.log('Fetching data...');
 
   try {
     const response = await fetch(url);
-    const jsonData = await response.json();
-    console.log(jsonData);
-    render(jsonData);
+    if (response.ok) {
+      const jsonData = await response.json();
+      console.log(jsonData);
+      return { data: jsonData, error: false };
+    } else {
+      alert('Ошибка HTTP: ' + response.status);
+    }
   } catch (e) {
     console.error(e);
-    alert(e);
+    return { data: null, error: true };
   }
 }
 
@@ -137,4 +156,17 @@ function renderDetailsItem(className, name, value) {
   detailsContainer.innerHTML = value;
 }
 
-getData();
+// ============ async вариант ============
+async function init() {
+  const { data, error } = await getData();
+  if (!error) render(data);
+}
+init();
+
+// ============ конструкция .then ============
+// function init() {
+//   getData().then((data) => {
+//     render(data);
+//   });
+// }
+// init();
