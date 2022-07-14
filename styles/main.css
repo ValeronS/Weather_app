@@ -22,6 +22,11 @@ html[data-theme=night] .weather {
   background: linear-gradient(360deg, #55707e 0%, rgba(255, 255, 255, 0) 100%), #042232;
 }
 
+html.transition * {
+  transition: all 3000ms;
+  transition-delay: 0ms;
+}
+
 .weather__inner {
   max-width: 900px;
   margin: 0 auto;

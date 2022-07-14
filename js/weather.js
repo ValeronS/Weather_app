@@ -1,5 +1,9 @@
 const url =
   'https://api.openweathermap.org/data/2.5/forecast?id=501175&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru';
+
+// запускать через live server
+// const url = 'js/data.json';
+
 const temperatureUnit = '°';
 const humidityUnit = ' %';
 const pressureUnit = ' мм. рт. ст.';
@@ -71,6 +75,7 @@ function render(data) {
   renderCurrentDescription(data.list[0].weather[0]?.description ?? 0);
   renderForecast(data.list);
   renderDetails(data.list[0]);
+  // renderDayOrNight(data.city);
 }
 
 function renderCity(data) {
@@ -156,10 +161,41 @@ function renderDetailsItem(className, name, value) {
   detailsContainer.innerHTML = value;
 }
 
+function isDay(data) {
+  let sunrise = data.city.sunrise * 1000;
+  let sunset = data.city.sunset * 1000;
+  let now = Date.now();
+
+  return now > sunrise && now < sunset;
+}
+
+function renderDayOrNight(data) {
+  let attrName = isDay(data) ? 'day' : 'night';
+  document.documentElement.setAttribute('data-theme', attrName);
+  transition();
+  console.log('Now is: ', attrName);
+}
+
+function transition() {
+  document.documentElement.classList.add('transition');
+  setTimeout(() => {
+    document.documentElement.classList.remove('transition');
+  }, 4000);
+}
+
+function periodicTask() {
+  setInterval(init, 600000);
+  setInterval(renderDayOrNight(currentData), 60000);
+}
+
 // ============ async вариант ============
 async function init() {
   const { data, error } = await getData();
-  if (!error) render(data);
+  if (!error) {
+    render(data);
+    currentData = data;
+    periodicTask();
+  }
 }
 init();
 
