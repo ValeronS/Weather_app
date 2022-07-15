@@ -51,7 +51,7 @@ function convertPressure(value) {
 Number.prototype.addZero = function (zeroCount = 1) {
   let s = String(this);
   while (s.length <= zeroCount) s = '0' + s;
-  return s;
+  return s + ':00';
 };
 
 function getHoursString(dateTime) {
@@ -162,8 +162,8 @@ function renderDetailsItem(className, name, value) {
 }
 
 function isDay(data) {
-  let sunrise = data.city.sunrise * 1000;
-  let sunset = data.city.sunset * 1000;
+  let sunrise = data.city.sunrise; //* 1000;
+  let sunset = data.city.sunset; //* 1000;
   let now = Date.now();
 
   return now > sunrise && now < sunset;
@@ -173,7 +173,22 @@ function renderDayOrNight(data) {
   let attrName = isDay(data) ? 'day' : 'night';
   document.documentElement.setAttribute('data-theme', attrName);
   transition();
+  let checkbox = document.querySelector('.theme-switch__checkbox');
+  if (attrName === 'night') {
+    checkbox.checked = true;
+  }
   console.log('Now is: ', attrName);
+}
+
+function userThemePreference() {
+  let checkbox = document.querySelector('theme-switch__checkbox');
+  checkbox.addEventListener('click', function () {
+    if (this.checked) {
+      document.documentElement.setAttribute('data-theme', 'night');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'day');
+    }
+  });
 }
 
 function transition() {
@@ -184,8 +199,8 @@ function transition() {
 }
 
 function periodicTask() {
-  setInterval(init, 600000);
-  setInterval(renderDayOrNight(currentData), 60000);
+  setInterval(init, 6000000);
+  setInterval(renderDayOrNight(currentData), 600000);
 }
 
 // ============ async вариант ============
@@ -195,6 +210,7 @@ async function init() {
     render(data);
     currentData = data;
     periodicTask();
+    userThemePreference();
   }
 }
 init();
