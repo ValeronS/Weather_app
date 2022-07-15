@@ -162,8 +162,8 @@ function renderDetailsItem(className, name, value) {
 }
 
 function isDay(data) {
-  let sunrise = data.city.sunrise; //* 1000;
-  let sunset = data.city.sunset; //* 1000;
+  let sunrise = data.city.sunrise * 1000;
+  let sunset = data.city.sunset * 1000;
   let now = Date.now();
 
   return now > sunrise && now < sunset;
@@ -171,36 +171,35 @@ function isDay(data) {
 
 function renderDayOrNight(data) {
   let attrName = isDay(data) ? 'day' : 'night';
+  console.log('Now is ', attrName);
   document.documentElement.setAttribute('data-theme', attrName);
   transition();
   let checkbox = document.querySelector('.theme-switch__checkbox');
   if (attrName === 'night') {
     checkbox.checked = true;
   }
-  console.log('Now is: ', attrName);
 }
 
 function userThemePreference() {
-  let checkbox = document.querySelector('theme-switch__checkbox');
+  let checkbox = document.querySelector('.theme-switch__checkbox');
   checkbox.addEventListener('click', function () {
     if (this.checked) {
       document.documentElement.setAttribute('data-theme', 'night');
+      transition();
     } else {
       document.documentElement.setAttribute('data-theme', 'day');
+      transition();
     }
   });
 }
 
 function transition() {
   document.documentElement.classList.add('transition');
-  setTimeout(() => {
-    document.documentElement.classList.remove('transition');
-  }, 4000);
 }
 
 function periodicTask() {
   setInterval(init, 6000000);
-  setInterval(renderDayOrNight(currentData), 600000);
+  setInterval(renderDayOrNight(currentData), 6000);
 }
 
 // ============ async вариант ============
