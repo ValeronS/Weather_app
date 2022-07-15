@@ -9,6 +9,14 @@ $icon-size: 50px;
 
 html {
   font-family: Roboto, sans-serif;
+  --day-theme: linear-gradient(360deg, #3594bf 0%, rgba(255, 255, 255, 0) 100%),
+    #53a6cb;
+  --night-theme: linear-gradient(
+      360deg,
+      #55707e 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    #042232;
 }
 
 .weather {
@@ -18,13 +26,11 @@ html {
 
 html[data-theme='day'] .weather,
 .weather {
-  background: linear-gradient(360deg, #3594bf 0%, rgba(255, 255, 255, 0) 100%),
-    #53a6cb;
+  background: var(--day-theme);
 }
 
 html[data-theme='night'] .weather {
-  background: linear-gradient(360deg, #55707e 0%, rgba(255, 255, 255, 0) 100%),
-    #042232;
+  background: var(--night-theme);
 }
 
 html.transition * {
@@ -32,10 +38,77 @@ html.transition * {
   transition-delay: 0ms;
 }
 
+.theme-switch-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+
+  em {
+    margin-left: 10px;
+  }
+
+  .theme-switch__label {
+    margin-right: 10px;
+  }
+}
+
+.theme-switch {
+  display: inline-box;
+  height: 24px;
+  position: relative;
+  width: 40px;
+}
+
+.theme-switch input {
+  display: none;
+}
+
+.slider {
+  background-color: #ccc;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: '';
+  height: 16px;
+  left: 4px;
+  position: absolute;
+  transition: 0.4s;
+  width: 16px;
+}
+
+input:checked + .slider {
+  background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
 .weather__inner {
   max-width: 900px;
   margin: 0 auto;
-  padding: $padding;
+  padding: 50px $padding $padding;
 }
 
 .current {
