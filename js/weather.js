@@ -182,12 +182,19 @@ function renderDayOrNight(data) {
 
 function userThemePreference() {
   let checkbox = document.querySelector('.theme-switch__checkbox');
+  let transparentImage = document.querySelectorAll('.forecast__icon');
   checkbox.addEventListener('click', function () {
     if (this.checked) {
       document.documentElement.setAttribute('data-theme', 'night');
+      for (let i = 0; i < 6; i++) {
+        transparentImage[i].setAttribute('data-theme', 'night');
+      }
       transition();
     } else {
       document.documentElement.setAttribute('data-theme', 'day');
+      for (let i = 0; i < 6; i++) {
+        transparentImage[i].setAttribute('data-theme', 'day');
+      }
       transition();
     }
   });
@@ -199,7 +206,6 @@ function transition() {
 
 function periodicTask() {
   setInterval(init, 6000000);
-  setInterval(renderDayOrNight(currentData), 6000);
 }
 
 // ============ async вариант ============
