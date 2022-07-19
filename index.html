@@ -14,6 +14,21 @@
 
   <body>
     <div class="weather">
+      <div class="search">
+        <div class="location__label"></div>
+        <input
+          type="text"
+          class="city-search"
+          placeholder="Выбрать город"
+          list="cities"
+        />
+        <datalist id="cities">
+          <option>Москва</option>
+          <option>Ростов-на-Дону</option>
+          <option>Караганда</option>
+        </datalist>
+      </div>
+
       <div class="theme-switch-wrapper">
         <span class="theme-switch__label">Dark Mode</span>
         <label class="theme-switch">

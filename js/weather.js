@@ -1,4 +1,4 @@
-const url =
+let url =
   'https://api.openweathermap.org/data/2.5/forecast?id=501175&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru';
 
 // запускать через live server
@@ -10,6 +10,7 @@ const pressureUnit = ' мм. рт. ст.';
 const windUnit = ' м/с';
 
 let currentData;
+let city;
 // ============ первый рабочий вариант ============
 // async function getData() {
 //   console.log('Fetching data...');
@@ -75,7 +76,7 @@ function render(data) {
   renderCurrentDescription(data.list[0].weather[0]?.description ?? 0);
   renderForecast(data.list);
   renderDetails(data.list[0]);
-  // renderDayOrNight(data.city);
+  renderDayOrNight(data.city);
 }
 
 function renderCity(data) {
@@ -162,8 +163,8 @@ function renderDetailsItem(className, name, value) {
 }
 
 function isDay(data) {
-  let sunrise = data.city.sunrise * 1000;
-  let sunset = data.city.sunset * 1000;
+  let sunrise = data.sunrise * 1000;
+  let sunset = data.sunset * 1000;
   let now = Date.now();
 
   return now > sunrise && now < sunset;
@@ -183,16 +184,16 @@ function renderDayOrNight(data) {
 function userThemePreference() {
   let checkbox = document.querySelector('.theme-switch__checkbox');
   let transparentImage = document.querySelectorAll('.forecast__icon');
-  checkbox.addEventListener('click', function () {
+  checkbox.addEventListener('change', function () {
     if (this.checked) {
       document.documentElement.setAttribute('data-theme', 'night');
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < transparentImage.length; i++) {
         transparentImage[i].setAttribute('data-theme', 'night');
       }
       transition();
     } else {
       document.documentElement.setAttribute('data-theme', 'day');
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < transparentImage.length; i++) {
         transparentImage[i].setAttribute('data-theme', 'day');
       }
       transition();
@@ -208,6 +209,19 @@ function periodicTask() {
   setInterval(init, 6000000);
 }
 
+function citySearch() {
+  let search = '';
+  document
+    .querySelector('.city-search')
+    .addEventListener('change', function () {
+      console.log(document.querySelector('.city-search').value);
+      search = document.querySelector('.city-search').value;
+      city = search;
+      url = `https://api.openweathermap.org/data/2.5/forecast?q=${search}&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru`;
+      init();
+    });
+}
+
 // ============ async вариант ============
 async function init() {
   const { data, error } = await getData();
@@ -219,6 +233,7 @@ async function init() {
   }
 }
 init();
+citySearch();
 
 // ============ конструкция .then ============
 // function init() {
