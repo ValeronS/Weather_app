@@ -43,6 +43,30 @@ html.transition * {
   transition-delay: 0ms;
 }
 
+.search {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 8px;
+  left: 10px;
+}
+
+.location__label {
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
+  background-image: url(../images/map.png);
+  background-repeat: no-repeat;
+}
+
+.city-search {
+  height: 20px;
+  text-align: center;
+  border-style: hidden;
+  border-radius: 5px;
+  color: #042232;
+}
+
 .theme-switch-wrapper {
   position: absolute;
   top: 10px;
