@@ -25,7 +25,7 @@ html[data-theme='day'] .weather,
       rgba(255, 255, 255, 0) 100%
     ),
     #53a6cb;
-  --primary-color: #fff;
+  --primary-color: #eee;
 }
 
 html[data-theme='night'] .weather {
@@ -39,7 +39,7 @@ html[data-theme='night'] .weather {
 }
 
 html.transition * {
-  transition: all 3000ms;
+  transition: all 1000ms;
   transition-delay: 0ms;
 }
 
@@ -60,11 +60,13 @@ html.transition * {
 }
 
 .city-search {
-  height: 20px;
+  height: 25px;
+  width: 250px;
   text-align: center;
   border-style: hidden;
   border-radius: 5px;
-  color: #042232;
+  color: #555
+  background-color: rgba(204, 204, 204, 0.8);
 }
 
 .theme-switch-wrapper {
