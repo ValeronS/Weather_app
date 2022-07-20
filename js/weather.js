@@ -1,9 +1,6 @@
 let url =
   'https://api.openweathermap.org/data/2.5/forecast?id=501175&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru';
 
-// запускать через live server
-// const url = 'js/data.json';
-
 const temperatureUnit = '°';
 const humidityUnit = ' %';
 const pressureUnit = ' мм. рт. ст.';
@@ -11,21 +8,6 @@ const windUnit = ' м/с';
 
 let currentData;
 let city;
-// ============ первый рабочий вариант ============
-// async function getData() {
-//   console.log('Fetching data...');
-
-//   try {
-//     const response = await fetch(url);
-//     const jsonData = await response.json();
-//     console.log(jsonData);
-//     render(jsonData);
-//   } catch (e) {
-//     console.error(e);
-//     alert(e);
-//   }
-// }
-// getData();
 
 async function getData() {
   console.log('Fetching data...');
@@ -209,20 +191,25 @@ function periodicTask() {
   setInterval(init, 6000000);
 }
 
-function citySearch() {
-  let search = '';
-  document
-    .querySelector('.city-search')
-    .addEventListener('change', function () {
-      console.log(document.querySelector('.city-search').value);
-      search = document.querySelector('.city-search').value;
-      city = search;
-      url = `https://api.openweathermap.org/data/2.5/forecast?q=${search}&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru`;
+jQuery(document).ready(function () {
+  $('.city-search').suggestions({
+    token: '2a5003ab085c07782a03a08c8ec8b7fad6a5d9fc',
+    type: 'ADDRESS',
+    constraints: {
+      locations: { country: '*' },
+    },
+    onSelect: function (suggestion) {
+      let lat = suggestion.data.geo_lat;
+      let lon = suggestion.data.geo_lon;
+      url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru`;
       init();
-    });
-}
+      console.log(suggestion);
+      console.log(suggestion.data.city || suggestion.data.settlement);
+      console.log(suggestion.data.geo_lat, suggestion.data.geo_lon);
+    },
+  });
+});
 
-// ============ async вариант ============
 async function init() {
   const { data, error } = await getData();
   if (!error) {
@@ -233,12 +220,3 @@ async function init() {
   }
 }
 init();
-citySearch();
-
-// ============ конструкция .then ============
-// function init() {
-//   getData().then((data) => {
-//     render(data);
-//   });
-// }
-// init();
