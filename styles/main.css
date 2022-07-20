@@ -58,11 +58,11 @@ html.transition * {
 
 .city-search {
   height: 25px;
-  width: 250px;
+  width: 190px;
   text-align: center;
   border-style: hidden;
   border-radius: 5px;
-  color: #042232;
+  color: #555;
   background-color: rgba(204, 204, 204, 0.8);
 }
 
