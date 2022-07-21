@@ -165,19 +165,12 @@ function renderDayOrNight(data) {
 
 function userThemePreference() {
   let checkbox = document.querySelector('.theme-switch__checkbox');
-  let transparentImage = document.querySelectorAll('.forecast__icon');
   checkbox.addEventListener('change', function () {
     if (this.checked) {
       document.documentElement.setAttribute('data-theme', 'night');
-      for (let i = 0; i < transparentImage.length; i++) {
-        transparentImage[i].setAttribute('data-theme', 'night');
-      }
       transition();
     } else {
       document.documentElement.setAttribute('data-theme', 'day');
-      for (let i = 0; i < transparentImage.length; i++) {
-        transparentImage[i].setAttribute('data-theme', 'day');
-      }
       transition();
     }
   });
