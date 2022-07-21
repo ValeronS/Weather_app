@@ -26,6 +26,9 @@ html[data-theme='day'] .weather,
     ),
     #53a6cb;
   --primary-color: #eee;
+  --placeholder-color: #fff;
+  --opacity: 1;
+  --box-shadow: 0px 0px 4px #001c45;
 }
 
 html[data-theme='night'] .weather {
@@ -36,6 +39,9 @@ html[data-theme='night'] .weather {
     ),
     #042232;
   --primary-color: rgb(172, 172, 172);
+  --placeholder-color: #222;
+  --opacity: 0.7;
+  --box-shadow: 0px 0px 6px #b5b5b5;
 }
 
 html.transition * {
@@ -66,7 +72,18 @@ html.transition * {
   border-style: hidden;
   border-radius: 5px;
   color: #555;
-  background-color: rgba(204, 204, 204, 0.8);
+  background-color: #ccc;
+}
+
+::placeholder {
+  color: var(--placeholder-color);
+  transition: all 1000ms;
+  transition-delay: 0ms;
+}
+
+.city-search:focus {
+  outline: none;
+  box-shadow: var(--box-shadow);
 }
 
 .theme-switch-wrapper {
@@ -206,10 +223,7 @@ input:checked + .slider:before {
 .forecast__icon {
   background-size: $icon-size;
   background-repeat: no-repeat;
-}
-
-.forecast__icon[data-theme='night'] {
-  opacity: 0.7;
+  opacity: var(--opacity);
 }
 
 .icon__clear_sky {
