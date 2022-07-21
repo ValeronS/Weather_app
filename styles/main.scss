@@ -49,30 +49,21 @@ html.transition * {
   transition-delay: 0ms;
 }
 
-.search {
-  position: absolute;
+.nav {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  top: 8px;
-  left: 10px;
-}
-
-.location__label {
-  margin-right: 5px;
-  width: 30px;
-  height: 30px;
-  background-image: url(../images/map.png);
-  background-repeat: no-repeat;
+  margin: 5px 8px 0 8px;
 }
 
 .city-search {
   height: 25px;
-  width: 190px;
   text-align: center;
   border-style: hidden;
   border-radius: 5px;
   color: #555;
   background-color: #ccc;
+  opacity: var(--opacity);
 }
 
 ::placeholder {
@@ -86,21 +77,29 @@ html.transition * {
   box-shadow: var(--box-shadow);
 }
 
-.theme-switch-wrapper {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.geolocation {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
+
+.location__label {
+  margin-right: 15px;
+  width: 30px;
+  height: 30px;
+  background-image: url(../images/map.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  opacity: var(--opacity);
+}
+
 .theme-switch-wrapper {
   display: flex;
   align-items: center;
 
-  em {
-    margin-left: 10px;
-  }
-
   .theme-switch__label {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 }
 
@@ -155,8 +154,8 @@ input:checked + .slider:before {
 
 .weather__inner {
   max-width: 900px;
-  margin: 0 auto;
-  padding: 50px $padding $padding;
+  margin: 50px auto 0;
+  padding: 20px $padding $padding;
 }
 
 .current {
@@ -164,7 +163,7 @@ input:checked + .slider:before {
   margin-bottom: $padding * 2;
 
   &__city {
-    font-size: 3em;
+    font-size: 2em;
   }
 
   &__description {
@@ -172,7 +171,7 @@ input:checked + .slider:before {
   }
 
   &__temperature {
-    font-size: 4em;
+    font-size: 2.5em;
   }
 }
 

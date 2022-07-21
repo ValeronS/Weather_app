@@ -1,6 +1,6 @@
-let url =
-  'https://api.openweathermap.org/data/2.5/forecast?id=501175&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru';
-
+const openWeatherKey = 'a722624eaa524af8342f7a194cffad4d';
+const dadataToken = '2a5003ab085c07782a03a08c8ec8b7fad6a5d9fc';
+let url = `https://api.openweathermap.org/data/2.5/forecast?id=501175&appid=${openWeatherKey}&units=metric&lang=ru`;
 const temperatureUnit = '°';
 const humidityUnit = ' %';
 const pressureUnit = ' мм. рт. ст.';
@@ -8,6 +8,8 @@ const windUnit = ' м/с';
 
 let currentData;
 let city;
+let latitude;
+let longitude;
 
 async function getData() {
   console.log('Fetching data...');
@@ -186,15 +188,15 @@ function periodicTask() {
 
 jQuery(document).ready(function () {
   $('.city-search').suggestions({
-    token: '2a5003ab085c07782a03a08c8ec8b7fad6a5d9fc',
+    token: dadataToken,
     type: 'ADDRESS',
     constraints: {
       locations: { country: '*' },
     },
     onSelect: function (suggestion) {
-      let lat = suggestion.data.geo_lat;
-      let lon = suggestion.data.geo_lon;
-      url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=a722624eaa524af8342f7a194cffad4d&units=metric&lang=ru`;
+      latitude = suggestion.data.geo_lat;
+      longitude = suggestion.data.geo_lon;
+      url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherKey}&units=metric&lang=ru`;
       init();
       console.log(suggestion);
       console.log(suggestion.data.city || suggestion.data.settlement);
@@ -203,6 +205,30 @@ jQuery(document).ready(function () {
   });
 });
 
+function geoposition() {
+  let geoBtn = document.querySelector('.geolocation');
+  geoBtn.addEventListener('click', function () {
+    const options = {
+      enableHighAccuracy: false,
+      timeout: 5000,
+      maximumAge: 0,
+    };
+
+    const succsess = async (pos) => {
+      let crd = pos.coords;
+      latitude = crd.latitude;
+      longitude = crd.longitude;
+      url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherKey}&units=metric&lang=ru`;
+      init();
+    };
+
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+    navigator.geolocation.getCurrentPosition(succsess, error, options);
+  });
+}
+
 async function init() {
   const { data, error } = await getData();
   if (!error) {
@@ -210,6 +236,7 @@ async function init() {
     currentData = data;
     periodicTask();
     userThemePreference();
+    geoposition();
   }
 }
 init();

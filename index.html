@@ -14,16 +14,19 @@
     <link rel="stylesheet" href="styles/main.css" />
   </head>
 
-  <body>
-    <div class="weather">
+  <body class="weather">
+    <header class="nav">
       <div class="search">
-        <div class="location__label"></div>
         <input
           type="text"
           class="city-search"
           placeholder="Выбрать город"
           list="cities"
         />
+      </div>
+
+      <div class="geolocation">
+        <div class="location__label"></div>
       </div>
 
       <div class="theme-switch-wrapper">
@@ -33,7 +36,9 @@
           <div class="slider round"></div>
         </label>
       </div>
+    </header>
 
+    <div>
       <div class="weather__inner">
         <div class="current">
           <div class="current__city"></div>
