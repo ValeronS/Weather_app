@@ -180,6 +180,7 @@ input:checked + .slider:before {
 }
 .current__temperature {
   font-size: 2.5em;
+  padding-left: 0.3em;
 }
 
 .forecast {
