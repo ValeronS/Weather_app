@@ -1,15 +1,36 @@
 const openWeatherKey = 'a722624eaa524af8342f7a194cffad4d';
 const dadataToken = '2a5003ab085c07782a03a08c8ec8b7fad6a5d9fc';
-let url = `https://api.openweathermap.org/data/2.5/forecast?id=501175&appid=${openWeatherKey}&units=metric&lang=ru`;
 const temperatureUnit = '°';
 const humidityUnit = ' %';
 const pressureUnit = ' мм. рт. ст.';
 const windUnit = ' м/с';
 
-let currentData;
-let city;
-let latitude;
-let longitude;
+let latitude = 55.7522;
+let longitude = 37.6156;
+let url;
+let checkbox = document.querySelector('.theme-switch__checkbox');
+
+function setUrl(latitude, longitude) {
+  url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherKey}&units=metric&lang=ru`;
+  return url;
+}
+
+function checkLocalStorageLocation() {
+  if (localStorage.getItem('latitude')) {
+    latitude = localStorage.getItem('latitude');
+    longitude = localStorage.getItem('longitude');
+  }
+}
+
+function checkLocalStorageTheme(data) {
+  if (localStorage.getItem('data-theme') === 'night') {
+    checkbox.checked = true;
+    document.documentElement.setAttribute('data-theme', 'night');
+  } else {
+    renderDayOrNight(data.city);
+    transition();
+  }
+}
 
 async function getData() {
   console.log('Fetching data...');
@@ -60,7 +81,6 @@ function render(data) {
   renderCurrentDescription(data.list[0].weather[0]?.description ?? 0);
   renderForecast(data.list);
   renderDetails(data.list[0]);
-  renderDayOrNight(data.city);
 }
 
 function renderCity(data) {
@@ -166,13 +186,14 @@ function renderDayOrNight(data) {
 }
 
 function userThemePreference() {
-  let checkbox = document.querySelector('.theme-switch__checkbox');
-  checkbox.addEventListener('change', function () {
+  checkbox.addEventListener('click', function () {
     if (this.checked) {
       document.documentElement.setAttribute('data-theme', 'night');
+      localStorage.setItem('data-theme', 'night');
       transition();
     } else {
       document.documentElement.setAttribute('data-theme', 'day');
+      localStorage.setItem('data-theme', 'day');
       transition();
     }
   });
@@ -196,7 +217,8 @@ jQuery(document).ready(function () {
     onSelect: function (suggestion) {
       latitude = suggestion.data.geo_lat;
       longitude = suggestion.data.geo_lon;
-      url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherKey}&units=metric&lang=ru`;
+      localStorage.setItem('latitude', latitude);
+      localStorage.setItem('longitude', longitude);
       init();
       console.log(suggestion);
       console.log(suggestion.data.city || suggestion.data.settlement);
@@ -218,7 +240,8 @@ function geoposition() {
       let crd = pos.coords;
       latitude = crd.latitude;
       longitude = crd.longitude;
-      url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${openWeatherKey}&units=metric&lang=ru`;
+      localStorage.setItem('latitude', latitude);
+      localStorage.setItem('longitude', longitude);
       init();
     };
 
@@ -230,10 +253,12 @@ function geoposition() {
 }
 
 async function init() {
+  checkLocalStorageLocation();
+  setUrl(latitude, longitude);
   const { data, error } = await getData();
   if (!error) {
+    checkLocalStorageTheme(data);
     render(data);
-    currentData = data;
     periodicTask();
     userThemePreference();
     geoposition();

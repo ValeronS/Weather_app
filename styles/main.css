@@ -14,8 +14,7 @@ html {
   background: var(--background-theme);
 }
 
-html[data-theme=day] .weather,
-.weather {
+html[data-theme=day] .weather {
   --background-theme: linear-gradient(
       360deg,
       #3594bf 0%,
@@ -28,7 +27,8 @@ html[data-theme=day] .weather,
   --box-shadow: 0px 0px 4px #001c45;
 }
 
-html[data-theme=night] .weather {
+html[data-theme=night] .weather,
+.weather {
   --background-theme: linear-gradient(
       360deg,
       #3a4d57 0%,
@@ -43,7 +43,6 @@ html[data-theme=night] .weather {
 
 html.transition * {
   transition: all 1000ms;
-  transition-delay: 0ms;
 }
 
 .nav {
@@ -180,6 +179,7 @@ input:checked + .slider:before {
 }
 .current__temperature {
   font-size: 2.5em;
+  padding-left: 0.3em;
 }
 
 .forecast {
